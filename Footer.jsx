@@ -2,7 +2,7 @@ const Footer = () => (
   <footer className="e-footer">
     <div className="container e-footer__inner">
       <div className="e-footer__brand">
-        <img src="../../assets/logo-mark.png" alt="Efficiently" className="e-footer__mark"/>
+        <span style={{fontSize: 24, fontWeight: 700}}>E</span>
         <p className="e-footer__tag">
           Custom software, mobile apps, and analytics<br/>
           for small teams that want to ship.

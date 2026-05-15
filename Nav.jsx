@@ -9,7 +9,7 @@ const Nav = ({ active = "home" }) => {
     <nav className={"e-nav" + (scrolled ? " is-scrolled" : "")}>
       <div className="e-nav__inner">
         <a className="e-nav__brand" href="index.html" aria-label="Efficiently home">
-          <img src="../../assets/logo-lockup.png" alt="Efficiently Software Solutions"/>
+          <span style={{fontSize: 18, fontWeight: 700, letterSpacing: -0.5}}>Efficiently</span>
         </a>
         <div className="e-nav__links">
           <a href="index.html#services" className={active === "services" ? "is-active" : ""}>Services</a>
