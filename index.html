@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Efficiently Software Solutions — Technical leverage, built around your business</title>
+<link rel="icon" type="image/png" href="../../assets/logo-mark.png">
+<link rel="stylesheet" href="site.css">
+<style>
+  /* Tweakable variables — overridden live by Tweaks panel */
+  :root {
+    --tw-accent: var(--brand-blue);
+    --tw-accent-600: var(--brand-blue-600);
+    --tw-accent-50: var(--brand-blue-50);
+    --tw-accent-300: var(--brand-blue-300);
+    --tw-bg: var(--cream-50);
+    --tw-bg-alt: var(--cream-100);
+  }
+  body { background: var(--tw-bg); }
+  .e-services, .e-contact { background: var(--tw-bg-alt); }
+  /* Re-route brand-blue to the tweaked accent in this page */
+  .btn-primary { background: var(--tw-accent); }
+  .btn-primary:hover { background: var(--tw-accent-600); }
+  .btn-ghost { color: var(--tw-accent); }
+  .btn-ghost:hover { background: var(--tw-accent-50); }
+  .e-nav__links a:hover, .e-nav__links a.is-active,
+  .e-hero__copy h1 em,
+  .e-process__num,
+  .e-service__link,
+  .e-service__icon,
+  .e-contact__list svg,
+  .e-hero__meta svg { color: var(--tw-accent); }
+  .e-service__icon, .e-value__icon { background: var(--tw-accent-50); }
+  .e-case__inner::before { background: radial-gradient(circle, color-mix(in srgb, var(--tw-accent) 40%, transparent), transparent 70%); }
+  .e-case__stats > div { border-left-color: var(--tw-accent); }
+  .e-footer__cols a:hover { color: var(--tw-accent-300); }
+</style>
+</head>
+<body>
+<div id="app"></div>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<script type="text/babel" src="tweaks-panel.jsx"></script>
+<script type="text/babel" src="Icon.jsx"></script>
+<script type="text/babel" src="Nav.jsx"></script>
+<script type="text/babel" src="Hero.jsx"></script>
+<script type="text/babel" src="Services.jsx"></script>
+<script type="text/babel" src="Process.jsx"></script>
+<script type="text/babel" src="Contact.jsx"></script>
+<script type="text/babel" src="Footer.jsx"></script>
+
+<script type="text/babel">
+  const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+    "heroHeadline": "Technical leverage, built around your business.",
+    "heroEmphasis": "your",
+    "eyebrow": "Custom builds · analytics · mobile",
+    "primaryCta": "Book a 30-min intro",
+    "accentPalette": ["#0858D8", "#EEF4FD", "#6FA0F0"],
+    "background": ["#FBF8F2", "#F5F0E6"],
+    "showKpiCard": true,
+    "showSyncCard": true,
+    "showHeroMeta": true,
+    "mockTilt": 0.6
+  }/*EDITMODE-END*/;
+
+  const PALETTES = [
+    ["#0858D8", "#EEF4FD", "#6FA0F0"],   // Brand blue (default)
+    ["#0E4F4A", "#E5F0EE", "#5C9591"],   // Deep teal
+    ["#7A4FE0", "#EFEAFB", "#B59BF0"],   // Violet
+    ["#B5731C", "#FBEFD9", "#E2A95C"],   // Warm amber
+    ["#14181F", "#ECE5D5", "#555B68"],   // Mono ink
+  ];
+  const BACKGROUNDS = [
+    ["#FBF8F2", "#F5F0E6"],   // Cream (default)
+    ["#FFFFFF", "#F6F6F4"],   // Bright white
+    ["#F2F0EB", "#E6E3DA"],   // Sand
+    ["#0F1620", "#162133"],   // Dark navy
+  ];
+
+  const App = () => {
+    const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
+    const [accent, accent50, accent300] = t.accentPalette;
+    const [bg, bgAlt] = t.background;
+    const isDark = bg === "#0F1620";
+
+    // Push tweaks into CSS vars
+    React.useEffect(() => {
+      const r = document.documentElement.style;
+      r.setProperty("--tw-accent", accent);
+      r.setProperty("--tw-accent-600", `color-mix(in srgb, ${accent} 86%, black)`);
+      r.setProperty("--tw-accent-50", accent50);
+      r.setProperty("--tw-accent-300", accent300);
+      r.setProperty("--tw-bg", bg);
+      r.setProperty("--tw-bg-alt", bgAlt);
+      document.body.classList.toggle("is-dark", isDark);
+    }, [accent, accent50, accent300, bg, bgAlt, isDark]);
+
+    return (
+      <>
+        <Nav active="home"/>
+        <main>
+          <Hero
+            headline={t.heroHeadline}
+            emphasis={t.heroEmphasis}
+            eyebrow={t.eyebrow}
+            ctaLabel={t.primaryCta}
+            showKpi={t.showKpiCard}
+            showSync={t.showSyncCard}
+            showMeta={t.showHeroMeta}
+            mockTilt={t.mockTilt}
+          />
+          <Services/>
+          <Process/>
+          <Contact/>
+        </main>
+        <Footer/>
+
+        <TweaksPanel>
+          <TweakSection label="Hero" />
+          <TweakText label="Eyebrow"
+                     value={t.eyebrow}
+                     onChange={(v) => setTweak('eyebrow', v)} />
+          <TweakText label="Headline"
+                     value={t.heroHeadline}
+                     multiline
+                     onChange={(v) => setTweak('heroHeadline', v)} />
+          <TweakText label="Emphasized word"
+                     value={t.heroEmphasis}
+                     onChange={(v) => setTweak('heroEmphasis', v)} />
+          <TweakText label="Primary CTA"
+                     value={t.primaryCta}
+                     onChange={(v) => setTweak('primaryCta', v)} />
+          <TweakToggle label="Show ‘benefits’ row"
+                       value={t.showHeroMeta}
+                       onChange={(v) => setTweak('showHeroMeta', v)} />
+
+          <TweakSection label="Visual stack" />
+          <TweakToggle label="KPI card (left)"
+                       value={t.showKpiCard}
+                       onChange={(v) => setTweak('showKpiCard', v)} />
+          <TweakToggle label="Sync card (right)"
+                       value={t.showSyncCard}
+                       onChange={(v) => setTweak('showSyncCard', v)} />
+          <TweakSlider label="Mock tilt"
+                       value={t.mockTilt} min={-4} max={4} step={0.2} unit="°"
+                       onChange={(v) => setTweak('mockTilt', v)} />
+
+          <TweakSection label="Theme" />
+          <TweakColor label="Accent palette"
+                      value={t.accentPalette}
+                      options={PALETTES}
+                      onChange={(v) => setTweak('accentPalette', v)} />
+          <TweakColor label="Page background"
+                      value={t.background}
+                      options={BACKGROUNDS}
+                      onChange={(v) => setTweak('background', v)} />
+        </TweaksPanel>
+      </>
+    );
+  };
+  ReactDOM.createRoot(document.getElementById("app")).render(<App/>);
+</script>
+</body>
+</html>
