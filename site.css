@@ -1,5 +1,5 @@
 /* Website UI kit — page-level styles. Imports brand foundations. */
-@import url("../../colors_and_type.css");
+@import url("colors_and_type.css");
 
 /* ── Layout ───────────────────────────────────────────────── */
 .container { max-width: var(--container); margin: 0 auto; padding-inline: var(--gutter); }
